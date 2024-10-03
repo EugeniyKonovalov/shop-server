@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { checkToken } from "../lib/checkToken";
+import ApiError from "../error/apiError";
 
 const checkRoleMiddleware = (role: "ADMIN" | "USER") => {
   return async (
@@ -15,6 +16,9 @@ const checkRoleMiddleware = (role: "ADMIN" | "USER") => {
       const decoded = checkToken(req, res);
 
       if (!decoded) return;
+
+      if (decoded.role !== role)
+        return next(ApiError.forbiden("You are not access!"));
 
       req.user = decoded;
       next();

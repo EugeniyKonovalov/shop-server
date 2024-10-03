@@ -32,11 +32,13 @@ export interface ProductAttributes {
 export interface TypeAttributes {
   id?: number;
   name: string;
+  Brands?: BrandAttributes[];
 }
 
 export interface BrandAttributes {
   id?: number;
   name: string;
+  Types?: TypeAttributes[];
 }
 
 export interface RatingAttributes {
@@ -53,4 +55,6 @@ export interface ProductInfoAttributes {
 
 export interface TypeBrandAttributes {
   id?: number;
+  TypeId?: number;
+  BrandId?: number;
 }

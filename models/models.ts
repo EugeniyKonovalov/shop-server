@@ -32,6 +32,7 @@ User.init(
   },
   {
     tableName: "user",
+    underscored: true,
     sequelize,
   }
 );
@@ -45,7 +46,7 @@ Cart.init(
       autoIncrement: true,
     },
   },
-  { tableName: "cart", sequelize }
+  { tableName: "cart", underscored: true, sequelize }
 );
 
 class CartProduct extends Model<CartProductAttributes> {}
@@ -58,7 +59,7 @@ CartProduct.init(
     },
     count: { type: DataTypes.INTEGER, defaultValue: 1 },
   },
-  { tableName: "cart_products", sequelize }
+  { tableName: "cart_products", underscored: true, sequelize }
 );
 
 class Product extends Model<ProductAttributes> {}
@@ -70,7 +71,7 @@ Product.init(
     price: { type: DataTypes.INTEGER, allowNull: false },
     rating: { type: DataTypes.INTEGER, defaultValue: 0 },
   },
-  { tableName: "product", sequelize }
+  { tableName: "product", underscored: true, sequelize }
 );
 
 class Type extends Model<TypeAttributes> {}
@@ -87,7 +88,7 @@ Type.init(
       allowNull: false,
     },
   },
-  { tableName: "type", sequelize }
+  { tableName: "type", underscored: true, sequelize }
 );
 
 class Brand extends Model<BrandAttributes> {}
@@ -104,7 +105,7 @@ Brand.init(
       allowNull: false,
     },
   },
-  { tableName: "brand", sequelize }
+  { tableName: "brand", underscored: true, sequelize }
 );
 
 class Rating extends Model<RatingAttributes> {}
@@ -117,7 +118,7 @@ Rating.init(
     },
     rate: { type: DataTypes.INTEGER, allowNull: false },
   },
-  { tableName: "rating", sequelize }
+  { tableName: "rating", underscored: true, sequelize }
 );
 
 class ProductInfo extends Model<ProductInfoAttributes> {}
@@ -134,7 +135,7 @@ ProductInfo.init(
     },
     description: { type: DataTypes.STRING, allowNull: false },
   },
-  { tableName: "product_info", sequelize }
+  { tableName: "product_info", underscored: true, sequelize }
 );
 
 class TypeBrand extends Model<TypeBrandAttributes> {}
@@ -146,7 +147,7 @@ TypeBrand.init(
       autoIncrement: true,
     },
   },
-  { tableName: "type_brand", sequelize }
+  { tableName: "type_brand", underscored: true, sequelize }
 );
 
 User.hasOne(Cart, { onDelete: "CASCADE" });
