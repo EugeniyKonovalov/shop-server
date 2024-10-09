@@ -14,10 +14,11 @@ export async function getAllFromCart(
     if (!decoded) return;
 
     const userCart = await models.Cart.findOne({
-      where: { UserId: decoded.id },
+      where: { userId: decoded.id },
       include: [
         {
           model: models.Product,
+          as: "products",
           attributes: ["id", "name", "price", "img"],
           through: { attributes: ["count"], as: "options" },
         },
@@ -28,11 +29,7 @@ export async function getAllFromCart(
       return next(ApiError.badRequest("Cart not found"));
     }
 
-    if (!userCart?.dataValues?.Products?.length) {
-      return res.status(200).json({ message: "No products in the cart" });
-    }
-
-    return res.status(200).json(userCart?.dataValues?.Products);
+    return res.status(200).json(userCart?.dataValues.products);
   } catch (error: any) {
     return next(
       ApiError.internal(`Failed to retrieve cart products: ${error.message}`)

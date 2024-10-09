@@ -17,11 +17,11 @@ export async function removeFromCart(
     const decoded = checkToken(req, res);
     if (!decoded) return next(ApiError.badRequest("User is not authenticated"));
 
-    const cart = await models.Cart.findOne({ where: { UserId: decoded?.id } });
+    const cart = await models.Cart.findOne({ where: { userId: decoded?.id } });
     if (!cart) return next(ApiError.badRequest("Cart not found"));
 
     const cartProduct = await models.CartProduct.findOne({
-      where: { ProductId: formatedProductId, CartId: cart?.dataValues?.id },
+      where: { productId: formatedProductId, cartId: cart?.dataValues?.id },
     });
 
     if (!cartProduct)

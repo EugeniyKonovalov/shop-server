@@ -14,6 +14,7 @@ export async function getBrandTypes(
       where: { id },
       include: {
         model: models.Type,
+        as: "types",
         through: { attributes: [] },
       },
     });
@@ -22,9 +23,9 @@ export async function getBrandTypes(
 
     return res.status(200).json({
       brandId: typeWithBrands?.dataValues?.id,
-      types: typeWithBrands?.dataValues?.Types,
+      types: typeWithBrands?.dataValues?.types,
     });
   } catch (error: any) {
-    next(ApiError.internal(`Something went erong ${error.message}`));
+    next(ApiError.internal(`Something went wrong ${error.message}`));
   }
 }

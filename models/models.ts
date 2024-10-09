@@ -32,12 +32,13 @@ User.init(
   },
   {
     tableName: "user",
-    underscored: true,
     sequelize,
+    modelName: "user",
   }
 );
 
 class Cart extends Model<CartAttributes> {}
+
 Cart.init(
   {
     id: {
@@ -46,7 +47,7 @@ Cart.init(
       autoIncrement: true,
     },
   },
-  { tableName: "cart", underscored: true, sequelize }
+  { tableName: "cart", sequelize, modelName: "cart" }
 );
 
 class CartProduct extends Model<CartProductAttributes> {}
@@ -59,7 +60,10 @@ CartProduct.init(
     },
     count: { type: DataTypes.INTEGER, defaultValue: 1 },
   },
-  { tableName: "cart_products", underscored: true, sequelize }
+  {
+    tableName: "cart_products",
+    sequelize,
+  }
 );
 
 class Product extends Model<ProductAttributes> {}
@@ -71,7 +75,7 @@ Product.init(
     price: { type: DataTypes.INTEGER, allowNull: false },
     rating: { type: DataTypes.INTEGER, defaultValue: 0 },
   },
-  { tableName: "product", underscored: true, sequelize }
+  { tableName: "product", sequelize, modelName: "product" }
 );
 
 class Type extends Model<TypeAttributes> {}
@@ -88,7 +92,7 @@ Type.init(
       allowNull: false,
     },
   },
-  { tableName: "type", underscored: true, sequelize }
+  { tableName: "type", sequelize, modelName: "type" }
 );
 
 class Brand extends Model<BrandAttributes> {}
@@ -105,7 +109,7 @@ Brand.init(
       allowNull: false,
     },
   },
-  { tableName: "brand", underscored: true, sequelize }
+  { tableName: "brand", sequelize, modelName: "brand" }
 );
 
 class Rating extends Model<RatingAttributes> {}
@@ -118,7 +122,7 @@ Rating.init(
     },
     rate: { type: DataTypes.INTEGER, allowNull: false },
   },
-  { tableName: "rating", underscored: true, sequelize }
+  { tableName: "rating", sequelize }
 );
 
 class ProductInfo extends Model<ProductInfoAttributes> {}
@@ -135,7 +139,7 @@ ProductInfo.init(
     },
     description: { type: DataTypes.STRING, allowNull: false },
   },
-  { tableName: "product_info", underscored: true, sequelize }
+  { tableName: "product_info", sequelize }
 );
 
 class TypeBrand extends Model<TypeBrandAttributes> {}
@@ -147,7 +151,7 @@ TypeBrand.init(
       autoIncrement: true,
     },
   },
-  { tableName: "type_brand", underscored: true, sequelize }
+  { tableName: "type_brand", sequelize }
 );
 
 User.hasOne(Cart, { onDelete: "CASCADE" });
@@ -156,7 +160,9 @@ Cart.belongsTo(User);
 User.hasMany(Rating);
 Rating.belongsTo(User);
 
-Cart.hasMany(CartProduct, { onDelete: "CASCADE" });
+Cart.hasMany(CartProduct, {
+  onDelete: "CASCADE",
+});
 CartProduct.belongsTo(Cart);
 
 Type.hasMany(Product);
@@ -165,20 +171,35 @@ Product.belongsTo(Type);
 Brand.hasMany(Product);
 Product.belongsTo(Brand);
 
-Product.hasMany(Rating, { onDelete: "CASCADE" });
+Product.hasMany(Rating, {
+  onDelete: "CASCADE",
+});
 Rating.belongsTo(Product);
 
 Product.hasMany(CartProduct, { onDelete: "CASCADE" });
 CartProduct.belongsTo(Product);
 
-Product.hasMany(ProductInfo, { as: "info", onDelete: "CASCADE" });
+Cart.belongsToMany(Product, {
+  through: CartProduct,
+  onDelete: "CASCADE",
+});
+Product.belongsToMany(Cart, {
+  through: CartProduct,
+  onDelete: "CASCADE",
+});
+
+Product.hasMany(ProductInfo, {
+  as: "info",
+  onDelete: "CASCADE",
+});
 ProductInfo.belongsTo(Product);
 
-Cart.belongsToMany(Product, { through: CartProduct, onDelete: "CASCADE" });
-Product.belongsToMany(Cart, { through: CartProduct, onDelete: "CASCADE" });
-
-Type.belongsToMany(Brand, { through: TypeBrand });
-Brand.belongsToMany(Type, { through: TypeBrand });
+Type.belongsToMany(Brand, {
+  through: TypeBrand,
+});
+Brand.belongsToMany(Type, {
+  through: TypeBrand,
+});
 
 export default {
   User,

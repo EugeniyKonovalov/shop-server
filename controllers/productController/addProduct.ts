@@ -8,8 +8,8 @@ import { UploadedFile } from "express-fileupload";
 interface reqBodyAttributes {
   name: string;
   price: number;
-  BrandId: number;
-  TypeId: number;
+  brandId: number;
+  typeId: number;
   info: string;
 }
 
@@ -19,7 +19,7 @@ export async function addProduct(
   next: NextFunction
 ): Promise<Response | void> {
   try {
-    let { name, price, BrandId, TypeId, info }: reqBodyAttributes = req.body;
+    let { name, price, brandId, typeId, info }: reqBodyAttributes = req.body;
     if (!req.files || !req.files.img) {
       return next(ApiError.badRequest("Image file is required"));
     }
@@ -32,8 +32,8 @@ export async function addProduct(
     const product = await models.Product.create({
       name,
       price,
-      TypeId,
-      BrandId,
+      typeId,
+      brandId,
       img: fileName,
     });
 
@@ -44,7 +44,7 @@ export async function addProduct(
           models.ProductInfo.create({
             title: i.title,
             description: i.description,
-            ProductId: product.dataValues.id,
+            productId: product.dataValues.id,
           })
         );
       } catch (err) {

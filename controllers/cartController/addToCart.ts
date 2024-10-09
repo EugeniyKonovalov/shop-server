@@ -13,28 +13,28 @@ export async function addToCart(
 
     if (!decoded) return;
 
-    const { ProductId, count } = req.body;
+    const { productId, count } = req.body;
 
-    if (!ProductId) {
-      return next(ApiError.badRequest(`"ProductId" is required!`));
+    if (!productId) {
+      return next(ApiError.badRequest(`"productId" is required!`));
     }
 
     const userCart = await models.Cart.findOne({
-      where: { UserId: decoded.id },
+      where: { userId: decoded.id },
     });
 
     if (!userCart) {
       return next(ApiError.badRequest("Cart not exist"));
     }
 
-    const product = await models.Product.findOne({ where: { id: ProductId } });
+    const product = await models.Product.findOne({ where: { id: productId } });
 
     if (!product) {
       return next(ApiError.badRequest("Product not found"));
     }
 
     const existingProduct = await models.CartProduct.findOne({
-      where: { ProductId, CartId: userCart.dataValues.id },
+      where: { productId, cartId: userCart.dataValues.id },
     });
 
     if (existingProduct) {
@@ -42,8 +42,8 @@ export async function addToCart(
     }
 
     await models.CartProduct.create({
-      ProductId,
-      CartId: userCart.dataValues.id,
+      productId,
+      cartId: userCart.dataValues.id,
       count,
     });
 

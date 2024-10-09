@@ -44,11 +44,12 @@ export async function signUp(
       role,
       password: hashPassword,
     });
+
     if (!user) {
       return next(ApiError.badRequest("User not found"));
     }
 
-    const cart = await models.Cart.create({ UserId: user?.dataValues?.id });
+    const cart = await models.Cart.create({ userId: user?.dataValues?.id });
 
     if (!cart) {
       return next(

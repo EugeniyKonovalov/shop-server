@@ -8,15 +8,15 @@ export interface UserAttributes {
 
 export interface CartAttributes {
   id?: number;
-  UserId?: number;
-  Products?: ProductAttributes[];
+  userId?: number;
+  products?: ProductAttributes[];
 }
 
 export interface CartProductAttributes {
   id?: number;
   count?: number;
-  ProductId?: number;
-  CartId?: number;
+  productId?: number;
+  cartId?: number;
 }
 
 export interface ProductAttributes {
@@ -25,36 +25,38 @@ export interface ProductAttributes {
   img?: string;
   price: number;
   rating?: number;
-  TypeId?: number;
-  BrandId?: number;
+  typeId?: number;
+  brandId?: number;
 }
 
 export interface TypeAttributes {
   id?: number;
   name: string;
-  Brands?: BrandAttributes[];
+  brands?: BrandAttributes[];
 }
 
 export interface BrandAttributes {
   id?: number;
   name: string;
-  Types?: TypeAttributes[];
+  types?: TypeAttributes[];
 }
 
 export interface RatingAttributes {
   id?: number;
   rate: number;
+  productId?: number;
+  userId?: number;
 }
 
 export interface ProductInfoAttributes {
   id?: number;
   title: string;
   description: string;
-  ProductId?: number;
+  productId?: number;
 }
 
 export interface TypeBrandAttributes {
   id?: number;
-  TypeId?: number;
-  BrandId?: number;
+  typeId?: number;
+  brandId?: number;
 }

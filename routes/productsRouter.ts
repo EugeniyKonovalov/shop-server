@@ -1,6 +1,7 @@
 import { Router } from "express";
 import productController from "../controllers/productController";
 import checkRoleMiddleware from "../middleware/checkRoleMiddleware";
+import ratingController from "../controllers/ratingController";
 
 const productRouter = Router();
 
@@ -19,7 +20,8 @@ productRouter.put(
 productRouter.delete(
   "/:id",
   checkRoleMiddleware("ADMIN"),
-  productController.getOneProduct
+  productController.deleteProduct
 );
+productRouter.post("/add-rating", ratingController.addRating);
 
 export default productRouter;

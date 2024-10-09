@@ -10,9 +10,8 @@ filterRouter.post(
   typeBrandController.createTypeBrand
 );
 filterRouter.get("/type", typeBrandController.getAllTypes);
-filterRouter.get("/type", typeBrandController.getAllTypes);
 filterRouter.get("/type/:id", typeBrandController.getTypeBrands);
-filterRouter.get("/brand", typeBrandController.getAllTypes);
+filterRouter.get("/brand", typeBrandController.getAllBrands);
 filterRouter.get("/brand/:id", typeBrandController.getBrandTypes);
 
 export default filterRouter;

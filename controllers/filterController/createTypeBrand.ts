@@ -20,13 +20,13 @@ export async function createTypeBrand(
     if (!brand) brand = await models.Brand.create({ name: brandName });
 
     let existingRelation = await models.TypeBrand.findOne({
-      where: { TypeId: type?.dataValues?.id, BrandId: brand?.dataValues?.id },
+      where: { typeId: type?.dataValues?.id, brandId: brand?.dataValues?.id },
     });
 
     if (!existingRelation)
       await models.TypeBrand.create({
-        TypeId: type?.dataValues?.id,
-        BrandId: brand?.dataValues?.id,
+        typeId: type?.dataValues?.id,
+        brandId: brand?.dataValues?.id,
       });
 
     return res.status(200).json({ message: "Created successfully" });
